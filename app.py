@@ -48,11 +48,17 @@ def is_disabled(widget_key):
 
 def react(symbol, key):
     value = st.session_state[key]
+    if value is None : return
     for eq_key in eq_set:
         free_syms = st.session_state[eq_key].free_symbols
         if symbol in free_syms:
             st.session_state[eq_key] = st.session_state[eq_key].subs(symbol, value)
-
+            free_syms = st.session_state[eq_key].free_symbols
+            if(len(free_syms) == 1) : 
+                solvend = next(iter(free_syms))
+                solution = solve(st.session_state[eq_key], solvend)[0]
+                st.session_state[solvend.name] = solution
+                react(solvend, solvend.name)
 
 # INITIALIZATION
 if "p_r" not in st.session_state:
@@ -153,5 +159,7 @@ with col3:
 st.divider()
 
 st.header("Steps :")
+
+st.header("STATE")
 
 st.write(st.session_state)
