@@ -24,7 +24,7 @@ p_r, p_t, fsl, g_t, g_r, f_r, f_t, wvlen, freq, a_e, eirp, s_r, radius = symbols
 )
 
 eq_set = {
-    "friis_eq": Eq(p_r, p_t * (1 / fsl) * g_t * g_r * f_t * f_r),
+    "friis_eq": Eq(p_r, p_t * ((1 / fsl)**2) * g_t * g_r * f_t * f_r),
     "fsl_eq": Eq(fsl, (4 * pi * radius) / wvlen),
     "freq_eq": Eq(freq, 3e8 / wvlen),
     "a_e_eq": Eq(a_e, (g_r * (wvlen**2)) / (4 * pi)),
